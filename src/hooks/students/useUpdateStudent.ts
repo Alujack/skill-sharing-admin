@@ -1,14 +1,25 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { updateStudent } from '@/services/studentService';
 import { Student } from '@/types/student';
 
 export const useUpdateStudent = () => {
-  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Student }) => updateStudent(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['students'] });
-    },
-  });
+  const update = async (id: string, data: Student) => {
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+    try {
+      await updateStudent({id:id,data:data});
+      setSuccess(true);
+    } catch (err: any) {
+      setError(err?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { update, loading, error, success };
 };
