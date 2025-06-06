@@ -17,7 +17,7 @@ export const createStudent = async (data: Omit<Student, 'id' | 'enrolledAt'>) =>
 };
 
 export const updateStudent = async ({ id, data }: { id: string; data:Student }) => {
-  const res = await axios.put(`/student/${id}`, data);
+  const res = await axios.put(`/users/${id}`, data);
   return res.data;
 };
 

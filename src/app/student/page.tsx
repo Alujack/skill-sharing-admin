@@ -32,12 +32,10 @@ const handleSelectStudent = (id:string)=>{
   console.log("initial === ",initialData)
   setIsOpen(true)
 }
-const handleSubmitUpdate = (id:string,formData:Student) =>{
-  update(id,formData)
+const handleSubmitUpdate = (formData:Student) =>{
+  update(formData.id,formData)
+  refetch()
 }
-
-
-
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">
